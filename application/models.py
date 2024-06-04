@@ -22,3 +22,11 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class Like(models.Model):
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='likes')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+
+
