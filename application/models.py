@@ -36,6 +36,6 @@ class Comment(models.Model):
 
 
 class Follow(models.Model):
-    follower = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followers_following')
-    following = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followers_following')
+    follower = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followers')
+    following = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')
     created_at = models.DateTimeField(auto_now_add=True)
