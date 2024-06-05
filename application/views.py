@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, generics, mixins
 
 import application.permissions
 from application.models import Post, Like, Comment, Follow
@@ -11,6 +11,7 @@ from application.serializers import (
     PostListSerializer,
     CommentListSerializer,
     FollowListSerializer,
+    MyFollowersSerializer,
 )
 
 
@@ -101,6 +102,10 @@ class FollowViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
+        if self.action in ("list", "retrieve"):
+            queryset = queryset.select_related("following").filter(
+                follower=self.request.user
+            )
         return queryset
 
     def get_serializer_class(self):
@@ -110,4 +115,16 @@ class FollowViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(follower=self.request.user)
-    
+
+
+class MyFollowersViewSet(
+    viewsets.ReadOnlyModelViewSet,
+    mixins.DestroyModelMixin,
+):
+    queryset = Follow.objects.all()
+    serializer_class = MyFollowersSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = self.queryset.filter(following=self.request.user).select_related("follower")
+        return queryset

@@ -113,3 +113,11 @@ class FollowListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ("id", "following", "created_at",)
+
+
+class MyFollowersSerializer(serializers.ModelSerializer):
+    followers = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Follow
+        fields = ("id", "followers", "created_at",)
