@@ -7,7 +7,22 @@ from application.models import Post, Like, Comment, Follow
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
-        fields = ("post", "created_at")
+        fields = ("post",)
+
+    def validate(self, data):
+        request = self.context.get('request')
+        user = request.user
+
+        if Like.objects.filter(user=user, post=data['post']).exists():
+            raise serializers.ValidationError("You can like only once.")
+
+        return data
+
+
+class LikeListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ("id", "post", "created_at", "user")
 
 
 class PostSerializer(serializers.ModelSerializer):

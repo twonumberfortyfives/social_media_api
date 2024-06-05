@@ -5,6 +5,7 @@ from application.models import Post, Like, Comment, Follow
 from application.serializers import (
     PostSerializer,
     LikeSerializer,
+    LikeListSerializer,
     CommentSerializer,
     FollowSerializer,
     PostListSerializer,
@@ -51,6 +52,11 @@ class LikeViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = self.queryset.filter(user=self.request.user)
         return queryset
+
+    def get_serializer_class(self):
+        if self.action in ("list", "retrieve"):
+            return LikeListSerializer
+        return LikeSerializer
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

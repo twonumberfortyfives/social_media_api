@@ -23,6 +23,7 @@ class Post(models.Model):
     media = models.FileField(upload_to=post_image_file_path, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    hashtag = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"{self.author}'s post at {self.created_at}"
