@@ -149,8 +149,7 @@ REST_FRAMEWORK = {
 }
 
 
-JWT_AUTH = {
-    "JWT_EXPIRATION_DELTA": datetime.timedelta(days=2),
-    "JWT_ALLOW_REFRESH": True,
-    "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=7),
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=2),
 }
