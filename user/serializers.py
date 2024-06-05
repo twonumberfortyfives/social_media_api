@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
-    following = serializers.SerializerMethodField(method_name="get_following")
+    followings = serializers.SerializerMethodField(method_name="get_following")
     followers = serializers.SerializerMethodField(method_name="get_followers")
 
     class Meta:
@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
             "bio",
             "password",
             "profile_picture",
-            "following",
+            "followings",
             "followers",
         )
         read_only_fields = (
