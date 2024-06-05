@@ -3,9 +3,20 @@ from rest_framework import serializers
 
 
 class UserSerializer(serializers.ModelSerializer):
+    following = serializers.SerializerMethodField(method_name="get_following")
+    followers = serializers.SerializerMethodField(method_name="get_followers")
+
     class Meta:
         model = get_user_model()
-        fields = ("id", "email", "bio", "password", "profile_picture")
+        fields = (
+            "id",
+            "email",
+            "bio",
+            "password",
+            "profile_picture",
+            "following",
+            "followers",
+        )
         read_only_fields = (
             "date_joined",
             "last_login",
@@ -29,3 +40,9 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
 
         return user
+
+    def get_following(self, obj):
+        return obj.followers.count()
+
+    def get_followers(self, obj):
+        return obj.following.count()
