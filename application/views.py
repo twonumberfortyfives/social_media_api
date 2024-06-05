@@ -19,8 +19,11 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
+        hashtag = self.request.query_params.get("hashtag")
         if self.action in ("list", "retrieve"):
             queryset = queryset.select_related("author")
+        if hashtag:
+            queryset = queryset.filter(hashtag__icontains=hashtag)
         return queryset
 
     def get_serializer_class(self):

@@ -32,7 +32,15 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ("content", "media", "created_at", "updated_at", "likes")
+        fields = (
+            "id",
+            "content",
+            "media",
+            "created_at",
+            "updated_at",
+            "likes",
+            "hashtag"
+        )
 
 
 class PostListSerializer(serializers.ModelSerializer):
@@ -41,7 +49,16 @@ class PostListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ("content", "media", "created_at", "updated_at", "author", "likes")
+        fields = (
+            "id",
+            "content",
+            "media",
+            "created_at",
+            "updated_at",
+            "author",
+            "likes",
+            "hashtag"
+        )
 
     def get_amount_of_likes(self, obj) -> int:
         return obj.likes.count()
