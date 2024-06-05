@@ -1,26 +1,35 @@
-from rest_framework import serializers
+import validators
+from rest_framework import serializers, validators
 
 from application.models import Post, Like, Comment, Follow
-
-
-class PostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = ("content", "media", "created_at", "updated_at")
-
-
-class PostListSerializer(serializers.ModelSerializer):
-    author = serializers.CharField(source="author.email", read_only=True)
-
-    class Meta:
-        model = Post
-        fields = ("content", "media", "created_at", "updated_at", "author")
 
 
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
-        fields = "__all__"
+        fields = ("post", "created_at")
+
+
+class PostSerializer(serializers.ModelSerializer):
+    likes = serializers.SlugRelatedField(
+        many=True, read_only=True, slug_field="user.email"
+    )
+
+    class Meta:
+        model = Post
+        fields = ("content", "media", "created_at", "updated_at", "likes")
+
+
+class PostListSerializer(serializers.ModelSerializer):
+    author = serializers.CharField(source="author.email", read_only=True)
+    likes = serializers.SerializerMethodField(method_name="get_amount_of_likes")
+
+    class Meta:
+        model = Post
+        fields = ("content", "media", "created_at", "updated_at", "author", "likes")
+
+    def get_amount_of_likes(self, obj) -> int:
+        return obj.likes.count()
 
 
 class CommentSerializer(serializers.ModelSerializer):

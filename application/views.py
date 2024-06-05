@@ -46,6 +46,14 @@ class MyPostViewSet(PostViewSet):
 class LikeViewSet(viewsets.ModelViewSet):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = self.queryset.filter(user=self.request.user)
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
