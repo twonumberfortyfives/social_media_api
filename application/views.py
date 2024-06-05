@@ -10,6 +10,7 @@ from application.serializers import (
     FollowSerializer,
     PostListSerializer,
     CommentListSerializer,
+    FollowListSerializer,
 )
 
 
@@ -21,7 +22,9 @@ class PostViewSet(viewsets.ModelViewSet):
         queryset = self.queryset
         hashtag = self.request.query_params.get("hashtag")
         if self.action in ("list", "retrieve"):
-            queryset = queryset.select_related("author").prefetch_related("likes", "comments")
+            queryset = queryset.select_related("author").prefetch_related(
+                "likes", "comments"
+            )
         if hashtag:
             queryset = queryset.filter(hashtag__icontains=hashtag)
         return queryset
@@ -41,7 +44,11 @@ class MyPostViewSet(PostViewSet):
     def get_queryset(self):
         queryset = self.queryset
         if self.request.user.is_authenticated:
-            queryset = queryset.select_related("author").prefetch_related("likes").filter(author=self.request.user)
+            queryset = (
+                queryset.select_related("author")
+                .prefetch_related("likes")
+                .filter(author=self.request.user)
+            )
         return queryset
 
 
@@ -51,7 +58,9 @@ class LikeViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        queryset = self.queryset.select_related("user", "post").filter(user=self.request.user)
+        queryset = self.queryset.select_related("user", "post").filter(
+            user=self.request.user
+        )
         return queryset
 
     def get_serializer_class(self):
@@ -71,7 +80,9 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = self.queryset
         if self.action in ("list", "retrieve"):
-            queryset = queryset.select_related("user", "post").filter(user=self.request.user)
+            queryset = queryset.select_related("user", "post").filter(
+                user=self.request.user
+            )
         return queryset
 
     def get_serializer_class(self):
@@ -91,6 +102,12 @@ class FollowViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = self.queryset
         return queryset
-    
+
+    def get_serializer_class(self):
+        if self.action in ("list", "retrieve"):
+            return FollowListSerializer
+        return FollowSerializer
+
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(follower=self.request.user)
+    

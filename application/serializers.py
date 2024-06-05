@@ -2,6 +2,7 @@ import validators
 from rest_framework import serializers, validators
 
 from application.models import Post, Like, Comment, Follow
+from user.serializers import UserSerializer
 
 
 class LikeSerializer(serializers.ModelSerializer):
@@ -94,4 +95,21 @@ class PostListSerializer(serializers.ModelSerializer):
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
-        fields = "__all__"
+        fields = ("following",)
+
+    def validate(self, data):
+        request = self.context.get('request')
+        user = request.user
+        if data["following"] == user:
+            raise serializers.ValidationError("You can't follow yourself.")
+        if Follow.objects.filter(follower=user, following=data["following"]).exists():
+            raise serializers.ValidationError("You can't follow twice")
+        return data
+
+
+class FollowListSerializer(serializers.ModelSerializer):
+    following = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Follow
+        fields = ("id", "following", "created_at",)

@@ -61,3 +61,15 @@ class Follow(models.Model):
         AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="following"
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["follower", "following"], name="You can't follow twice"
+            )
+        ]
+    
+    def validate(self):
+        if self.follower == self.following:
+            raise ValidationError("You can't follow yourself")
+        
