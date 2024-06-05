@@ -39,13 +39,39 @@ class PostSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
             "likes",
-            "hashtag"
+            "hashtag",
         )
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = (
+            "post",
+            "content",
+        )
+
+
+class CommentListSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source="user.email", read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ("user", "post", "content", "created_at")
+
+
+class CommentForPostSerializer(serializers.ModelSerializer):
+    user = serializers.CharField(source="user.email", read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ("id", "user", "content", "created_at")
 
 
 class PostListSerializer(serializers.ModelSerializer):
     author = serializers.CharField(source="author.email", read_only=True)
     likes = serializers.SerializerMethodField(method_name="get_amount_of_likes")
+    comments = CommentForPostSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
@@ -57,29 +83,12 @@ class PostListSerializer(serializers.ModelSerializer):
             "updated_at",
             "author",
             "likes",
-            "hashtag"
+            "hashtag",
+            "comments"
         )
 
     def get_amount_of_likes(self, obj) -> int:
         return obj.likes.count()
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = (
-            "post",
-            "content",
-            "created_at",
-        )
-
-
-class CommentListSerializer(serializers.ModelSerializer):
-    user = serializers.CharField(source="user.email", read_only=True)
-
-    class Meta:
-        model = Comment
-        fields = ("user", "post", "content", "created_at")
 
 
 class FollowSerializer(serializers.ModelSerializer):
