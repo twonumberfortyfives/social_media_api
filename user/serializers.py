@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
             "id",
             "email",
             "bio",
-            "password",
+            "password",                                                     
             "profile_picture",
             "followings",
             "followers",
