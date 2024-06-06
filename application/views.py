@@ -1,5 +1,7 @@
 from rest_framework import viewsets, permissions, generics, mixins
 
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+
 import application.permissions
 from application.models import Post, Like, Comment, Follow
 from application.serializers import (
@@ -37,6 +39,18 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="hashtag",
+                description="filter posts by hashtag",
+                type=str,
+            )
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class MyPostViewSet(PostViewSet):

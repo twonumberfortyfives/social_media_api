@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     "user",
     "application",
     "rest_framework_simplejwt",
-    "drf_spectacular"
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -156,14 +156,19 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "application.permissions.IsAdminAllOrAuthenticatedReadOnly"
     ],
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "1000/day"},
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Social Media Project API',
-    'DESCRIPTION': 'Basic functionality for Social Media API',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "Social Media Project API",
+    "DESCRIPTION": "Basic functionality for Social Media API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 SIMPLE_JWT = {

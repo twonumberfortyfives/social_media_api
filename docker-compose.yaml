@@ -5,7 +5,9 @@ services:
       - ./data/db:/var/lib/postgresql/data
     env_file:
       - .env
-  
+    environment:
+      POSTGRES_PASSWORD: example
+
   web:
     build: .
     command: >
@@ -20,3 +22,6 @@ services:
       - .env
     depends_on:
       - db
+
+  celery:
+    

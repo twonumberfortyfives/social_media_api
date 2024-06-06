@@ -1,1 +1,198 @@
-
+[
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields": {
+      "email": "alice@example.com",
+      "password": "pbkdf2_sha256$260000$....",
+      "profile_picture": "",
+      "bio": "Alice loves painting and hiking.",
+      "date_joined": "2023-01-01T00:00:00Z",
+      "last_login": "2023-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 2,
+    "fields": {
+      "email": "bob@example.com",
+      "password": "pbkdf2_sha256$260000$....",
+      "profile_picture": "",
+      "bio": "Bob is a software developer and a cat enthusiast.",
+      "date_joined": "2023-01-01T00:00:00Z",
+      "last_login": "2023-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 3,
+    "fields": {
+      "email": "charlie@example.com",
+      "password": "pbkdf2_sha256$260000$....",
+      "profile_picture": "",
+      "bio": "Charlie enjoys cycling and playing guitar.",
+      "date_joined": "2023-01-01T00:00:00Z",
+      "last_login": "2023-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "application.post",
+    "pk": 1,
+    "fields": {
+      "author": 1,
+      "content": "Just finished a new painting! #art #painting",
+      "media": "",
+      "created_at": "2023-01-01T10:00:00Z",
+      "updated_at": "2023-01-01T10:00:00Z",
+      "hashtag": "#art"
+    }
+  },
+  {
+    "model": "application.post",
+    "pk": 2,
+    "fields": {
+      "author": 2,
+      "content": "Check out my latest project on GitHub! #coding #opensource",
+      "media": "",
+      "created_at": "2023-01-02T12:00:00Z",
+      "updated_at": "2023-01-02T12:00:00Z",
+      "hashtag": "#coding"
+    }
+  },
+  {
+    "model": "application.post",
+    "pk": 3,
+    "fields": {
+      "author": 3,
+      "content": "Had a great bike ride today in the countryside. #cycling",
+      "media": "",
+      "created_at": "2023-01-03T15:00:00Z",
+      "updated_at": "2023-01-03T15:00:00Z",
+      "hashtag": "#cycling"
+    }
+  },
+  {
+    "model": "application.post",
+    "pk": 4,
+    "fields": {
+      "author": 1,
+      "content": "Hiking in the mountains is so refreshing! #nature #hiking",
+      "media": "",
+      "created_at": "2023-01-04T08:00:00Z",
+      "updated_at": "2023-01-04T08:00:00Z",
+      "hashtag": "#hiking"
+    }
+  },
+  {
+    "model": "application.like",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "post": 2,
+      "created_at": "2023-01-02T12:30:00Z"
+    }
+  },
+  {
+    "model": "application.like",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "post": 1,
+      "created_at": "2023-01-01T10:30:00Z"
+    }
+  },
+  {
+    "model": "application.like",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "post": 4,
+      "created_at": "2023-01-04T08:30:00Z"
+    }
+  },
+  {
+    "model": "application.like",
+    "pk": 4,
+    "fields": {
+      "user": 1,
+      "post": 3,
+      "created_at": "2023-01-03T15:30:00Z"
+    }
+  },
+  {
+    "model": "application.comment",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "post": 1,
+      "content": "Amazing painting, Alice! Keep it up!",
+      "created_at": "2023-01-01T11:00:00Z"
+    }
+  },
+  {
+    "model": "application.comment",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "post": 2,
+      "content": "Great project, Bob! I'll check it out.",
+      "created_at": "2023-01-02T12:30:00Z"
+    }
+  },
+  {
+    "model": "application.comment",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "post": 4,
+      "content": "Hiking is the best! Beautiful scenery.",
+      "created_at": "2023-01-04T09:00:00Z"
+    }
+  },
+  {
+    "model": "application.comment",
+    "pk": 4,
+    "fields": {
+      "user": 1,
+      "post": 3,
+      "content": "Cycling is so fun! Glad you enjoyed it.",
+      "created_at": "2023-01-03T16:00:00Z"
+    }
+  },
+  {
+    "model": "application.follow",
+    "pk": 1,
+    "fields": {
+      "follower": 1,
+      "following": 2,
+      "created_at": "2023-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "application.follow",
+    "pk": 2,
+    "fields": {
+      "follower": 2,
+      "following": 3,
+      "created_at": "2023-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "application.follow",
+    "pk": 3,
+    "fields": {
+      "follower": 3,
+      "following": 1,
+      "created_at": "2023-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "application.follow",
+    "pk": 4,
+    "fields": {
+      "follower": 1,
+      "following": 3,
+      "created_at": "2023-01-01T12:00:00Z"
+    }
+  }
+]
