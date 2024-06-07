@@ -8,6 +8,7 @@ services:
     environment:
       POSTGRES_PASSWORD: example
 
+
   web:
     build: .
     command: >
@@ -22,6 +23,3 @@ services:
       - .env
     depends_on:
       - db
-
-  celery:
-    
